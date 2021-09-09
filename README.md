@@ -61,4 +61,8 @@ FastText has been used and implemented in other computer languages.
 
 - Python[https://github.com/indix/whatthelang]
 
+## TODO List
+
+- Improve accuracy by replicating the test analysis from https://towardsdatascience.com/benchmarking-language-detection-for-nlp-8250ea8b67c and attempt to improve the `formatText()` function by strategically choosing punctuation / non-text characters.
+
 _This is an improved modification of https://www.npmjs.com/package/fasttext-lid_
