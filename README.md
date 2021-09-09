@@ -16,6 +16,8 @@ npm i --save @smodin/fast-text-language-detection
 
 ## Usage
 
+### Prediction
+
 _Testing_
 
 ```js
@@ -43,6 +45,14 @@ _Output_
 [ { lang: 'es', prob: 0.9211937189102173 } ]
 [ { lang: 'ru', prob: 0.9899846911430359 } ]
 [ { lang: 'zh', prob: 0.8515647649765015 } ]
+```
+
+### Other Helpers
+
+```js
+const LanguageDetection = require('@smodin/fast-text-language-detection')
+const lid = new LanguageDetection()
+const languageIsoCodes = lid.languageIsoCodes // ['af', 'als', 'am', 'an', 'ar', ...]
 ```
 
 ## Similar Libaries
