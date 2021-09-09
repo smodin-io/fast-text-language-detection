@@ -1,6 +1,6 @@
 {
   "name": "@smodin/fast-text-language-detection",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Language detection with facebook fast-text model",
   "homepage": "https://github.com/smodin-io/fast-text-language-detection",
   "keywords": [
