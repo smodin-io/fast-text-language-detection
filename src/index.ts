@@ -4,7 +4,11 @@ const path = require('path')
 /*  external requirements  */
 const { Classifier } = require('fast-text')
 
-const formatInput = require('./formatter')
+// Some characters can misconstrude the results
+// Removing \n and : because of this issue: https://github.com/indix/whatthelang/issues/12
+function formatInput(text: string) {
+  return text.replace(/[\n:]/g, '')
+}
 
 /*  the API class  */
 class LanguageDetection {
