@@ -61,6 +61,10 @@ FastText has been used and implemented in other computer languages.
 
 - Python[https://github.com/indix/whatthelang]
 
+## Reference Documents
+
+- FastText model 176: https://fasttext.cc/docs/en/language-identification.html
+
 ## TODO List
 
 - Improve accuracy by replicating the test analysis from https://towardsdatascience.com/benchmarking-language-detection-for-nlp-8250ea8b67c and attempt to improve the `formatText()` function by strategically choosing punctuation / non-text characters.
