@@ -70,3 +70,5 @@ FastText has been used and implemented in other computer languages.
 - Improve accuracy by replicating the test analysis from https://towardsdatascience.com/benchmarking-language-detection-for-nlp-8250ea8b67c and attempt to improve the `formatText()` function by strategically choosing punctuation / non-text characters.
 
 _This is an improved modification of https://www.npmjs.com/package/fasttext-lid_
+
+Created with <3 for https://smodin.io
