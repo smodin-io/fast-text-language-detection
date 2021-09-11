@@ -67,6 +67,8 @@ FastText has been used and implemented in other computer languages.
 
 ## Accuracy from Benchmark Testing
 
+### Long Input (30 to 250 characters)
+
 Translated sentence data was obtained from tatoeba.org. Testing the 550k sentences of 30 - 250 characters took less than 30 seconds (personal macbook Pro).
 
 | Language (99)                    | Symbol | Count (555790) | Accuracy (30 - 250 chars) |
@@ -170,6 +172,113 @@ Translated sentence data was obtained from tatoeba.org. Testing the 550k sentenc
 | Romansh                          | rm     | 16             | 0.0625                    |
 | Bosnian                          | bs     | 139            | 0.03597122302158273       |
 | Manx                             | gv     | 6              | 0                         |
+
+### Short Form (10 to 40 characters)
+
+As a test of accuracy on shorter phrases, the min and max character count was changed to 10 - 40, and similar results can be seen for major languages, but less known languages suffer significantly:
+
+| Language (100)                   | Symbol | Count (832264) | Accuracy (10 - 40 chars) |
+| -------------------------------- | ------ | -------------- | ------------------------ |
+| Thai                             | th     | 3399           | 1                        |
+| Malayalam                        | ml     | 525            | 1                        |
+| Burmese                          | my     | 243            | 1                        |
+| Tamil                            | ta     | 229            | 1                        |
+| Telugu                           | te     | 220            | 1                        |
+| Punjabi (Eastern)                | pa     | 156            | 1                        |
+| Amharic                          | am     | 154            | 1                        |
+| Kannada                          | kn     | 126            | 1                        |
+| Gujarati                         | gu     | 116            | 1                        |
+| Sinhala                          | si     | 37             | 1                        |
+| Tibetan                          | bo     | 29             | 1                        |
+| Divehi, Dhivehi, Maldivian       | dv     | 15             | 1                        |
+| Japanese                         | ja     | 28060          | 0.9999643620812545       |
+| Greek                            | el     | 24980          | 0.9999599679743795       |
+| Hebrew                           | he     | 26461          | 0.9999244170666264       |
+| Korean                           | ko     | 6128           | 0.9996736292428199       |
+| Armenian                         | hy     | 1855           | 0.9994609164420485       |
+| Bengali                          | bn     | 4132           | 0.9992739593417231       |
+| Marathi                          | mr     | 25633          | 0.9989466703078064       |
+| English                          | en     | 17094          | 0.9986544986544986       |
+| Mandarin Chinese                 | zh     | 17801          | 0.9978652884669401       |
+| Turkish                          | tr     | 18879          | 0.9978282748026909       |
+| Russian                          | ru     | 20855          | 0.9977942939343083       |
+| German                           | de     | 17223          | 0.9974452766649248       |
+| Uyghur                           | ug     | 6135           | 0.9973920130399349       |
+| Vietnamese                       | vi     | 13130          | 0.9971058644325971       |
+| Esperanto                        | eo     | 21641          | 0.9966729818400258       |
+| Georgian                         | ka     | 4550           | 0.996043956043956        |
+| Hindi                            | hi     | 11497          | 0.9958249978255197       |
+| Italian                          | it     | 20449          | 0.995598806787618        |
+| Arabic                           | ar     | 25531          | 0.9955348399984333       |
+| French                           | fr     | 16040          | 0.9953865336658354       |
+| Hungarian                        | hu     | 20843          | 0.9952502039053879       |
+| Lao                              | lo     | 183            | 0.994535519125683        |
+| Polish                           | pl     | 21386          | 0.9940147760216964       |
+| Khmer                            | km     | 1252           | 0.9920127795527156       |
+| Spanish                          | es     | 20498          | 0.9895599570689824       |
+| Finnish                          | fi     | 20731          | 0.9849500747672567       |
+| Portuguese                       | pt     | 18352          | 0.9833805579773321       |
+| Macedonian                       | mk     | 23602          | 0.9830099144140327       |
+| Ukrainian                        | uk     | 23251          | 0.982667412154316        |
+| Urdu                             | ur     | 1583           | 0.9797852179406191       |
+| Dutch                            | nl     | 19349          | 0.9720915809602564       |
+| Lithuanian                       | lt     | 24184          | 0.9597667879589812       |
+| Czech                            | cs     | 25189          | 0.951605859700663        |
+| Chuvash                          | cv     | 1332           | 0.9481981981981982       |
+| Tatar                            | tt     | 8283           | 0.9471206084751902       |
+| Swedish                          | sv     | 24466          | 0.9464563067113545       |
+| Icelandic                        | is     | 7745           | 0.9449967721110394       |
+| Bulgarian                        | bg     | 19328          | 0.9352235099337748       |
+| Sanskrit                         | sa     | 135            | 0.9259259259259259       |
+| Kazakh                           | kk     | 2373           | 0.9258322798145807       |
+| Romanian                         | ro     | 18367          | 0.9235041106332008       |
+| Tagalog                          | tl     | 11133          | 0.9193389023623462       |
+| Ossetian                         | os     | 205            | 0.9170731707317074       |
+| Indonesian                       | id     | 9707           | 0.9138765839085197       |
+| Danish                           | da     | 22539          | 0.9081591907360576       |
+| Latin                            | la     | 24699          | 0.8979310903275436       |
+| Basque                           | eu     | 4570           | 0.8851203501094091       |
+| Belarusian                       | be     | 9005           | 0.8785119378123265       |
+| Cornish                          | kw     | 3757           | 0.8759648655842428       |
+| Tajik                            | tg     | 48             | 0.875                    |
+| Breton                           | br     | 5468           | 0.8579005120702268       |
+| Irish                            | ga     | 1977           | 0.840161861406171        |
+| Bashkir                          | ba     | 128            | 0.8359375                |
+| Sindhi                           | sd     | 6              | 0.8333333333333334       |
+| Serbian                          | sr     | 23128          | 0.8054738844690419       |
+| Scottish Gaelic                  | gd     | 753            | 0.7822045152722443       |
+| Welsh                            | cy     | 1167           | 0.7660668380462725       |
+| Volapük                          | vo     | 3941           | 0.7609743719868054       |
+| Kyrgyz                           | ky     | 227            | 0.7533039647577092       |
+| Catalan                          | ca     | 5313           | 0.7504234895539243       |
+| Assamese                         | as     | 2635           | 0.7127134724857686       |
+| Yoruba                           | yo     | 31             | 0.7096774193548387       |
+| Occitan                          | oc     | 4096           | 0.70751953125            |
+| Interlingua                      | ia     | 14949          | 0.7073382834972239       |
+| Afrikaans                        | af     | 3299           | 0.6808123673840558       |
+| Maltese                          | mt     | 165            | 0.6727272727272727       |
+| Slovak                           | sk     | 13877          | 0.6105786553289616       |
+| Chechen                          | ce     | 25             | 0.6                      |
+| Interlingue                      | ie     | 6538           | 0.5183542367696543       |
+| Ido                              | io     | 6495           | 0.4857582755966128       |
+| Norwegian Nynorsk                | nn     | 1287           | 0.4654234654234654       |
+| Slovenian                        | sl     | 908            | 0.46255506607929514      |
+| Javanese                         | jv     | 548            | 0.45255474452554745      |
+| Turkmen                          | tk     | 4585           | 0.45169029443838604      |
+| Croatian                         | hr     | 4186           | 0.4362159579550884       |
+| Galician                         | gl     | 3245           | 0.4200308166409861       |
+| Luxembourgish                    | lb     | 732            | 0.3975409836065574       |
+| Frisian                          | fy     | 282            | 0.36879432624113473      |
+| Walloon                          | wa     | 37             | 0.2972972972972973       |
+| Corsican                         | co     | 13             | 0.23076923076923078      |
+| Sundanese                        | su     | 18             | 0.2222222222222222       |
+| Somali                           | so     | 61             | 0.14754098360655737      |
+| Limburgan, Limburger, Limburgish | li     | 34             | 0.14705882352941177      |
+| Haitian Creole                   | ht     | 58             | 0.1206896551724138       |
+| Manx                             | gv     | 30             | 0.06666666666666667      |
+| Bosnian                          | bs     | 520            | 0.04423076923076923      |
+| Aragonese                        | an     | 73             | 0.0136986301369863       |
+| Romansh                          | rm     | 11             | 0                        |
 
 ## TODO List
 
