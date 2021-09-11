@@ -5,7 +5,6 @@ const tatoeba2Languages = [
   { iso3: 'amh', iso1: 'am', language: 'Amharic', fastTextSymbol: 'am' },
   { iso3: 'arg', iso1: 'an', language: 'Aragonese', fastTextSymbol: 'an' },
   { iso3: 'asm', iso1: 'as', language: 'Assamese', fastTextSymbol: 'as' },
-  { iso3: 'ava', iso1: 'av', language: 'Avaric', fastTextSymbol: 'av' },
   { iso3: 'ave', iso1: 'ae', language: 'Avestan' },
   { iso3: 'bak', iso1: 'ba', language: 'Bashkir', fastTextSymbol: 'ba' },
   { iso3: 'bam', iso1: 'bm', language: 'Bambara' },
