@@ -3,6 +3,8 @@
 # dependencies
 node_modules
 model/fast-text-lid-model.bin
+benchmark-testing/data/*
+!benchmark-testing/data/.gitkeep
 
 # testing
 coverage
