@@ -67,6 +67,8 @@ FastText has been used and implemented in other computer languages.
 
 ## Accuracy from Benchmark Testing
 
+Translated sentence data was obtained from tatoeba.org. Testing the 550k sentences of 30 - 250 characters took less than 30 seconds (personal macbook Pro).
+
 | Language (97)                    | Symbol | Count (546461) | Accuracy (30 - 250 chars) |
 | -------------------------------- | ------ | -------------- | ------------------------- |
 | English                          | en     | 22428          | 1                         |
