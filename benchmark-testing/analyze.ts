@@ -1,11 +1,18 @@
 const fs = require('fs')
 const { version } = require('../package.json')
 const PromisePool = require('@supercharge/promise-pool')
+const { tatoeba2Languages, fastTextLanguages } = require('./constants')
 const LanguageDetection = require('../src/index.ts')
 const lid = new LanguageDetection()
 
 const asyncPoolForEach = (array: any[], callback: Function, concurrency = 3) => {
   return PromisePool.for(array).withConcurrency(concurrency).process(callback)
+}
+
+const getFileNameAndPath = (iso3Code: string) => `data/${iso3Code}_sentences.tsv`
+
+const getFilteredTsvTestData = () => {
+  // WIP
 }
 
 const data = [

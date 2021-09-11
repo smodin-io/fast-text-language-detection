@@ -1,12 +1,11 @@
 {
   "scripts": {
-    "analyze": "npx ts-node --transpile-only analyze.ts"
-  },
-  "devDependencies": {
-    "ts-node": "^10.2.1",
-    "typescript": "^4.4.3"
+    "analyze": "npx ts-node --transpile-only analyze.ts",
+    "getdata": "node download-test-data.js"
   },
   "dependencies": {
-    "@supercharge/promise-pool": "^1.7.0"
+    "@supercharge/promise-pool": "^1.7.0",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.3"
   }
 }
