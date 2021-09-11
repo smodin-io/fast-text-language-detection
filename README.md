@@ -69,7 +69,7 @@ FastText has been used and implemented in other computer languages.
 
 Translated sentence data was obtained from tatoeba.org. Testing the 550k sentences of 30 - 250 characters took less than 30 seconds (personal macbook Pro).
 
-| Language (97)                    | Symbol | Count (546461) | Accuracy (30 - 250 chars) |
+| Language (99)                    | Symbol | Count (555790) | Accuracy (30 - 250 chars) |
 | -------------------------------- | ------ | -------------- | ------------------------- |
 | English                          | en     | 22428          | 1                         |
 | Greek                            | el     | 12039          | 1                         |
@@ -78,6 +78,7 @@ Translated sentence data was obtained from tatoeba.org. Testing the 550k sentenc
 | Georgian                         | ka     | 1973           | 1                         |
 | Bengali                          | bn     | 1164           | 1                         |
 | Thai                             | th     | 572            | 1                         |
+| Mandarin Chinese                 | zh     | 568            | 1                         |
 | Malayalam                        | ml     | 517            | 1                         |
 | Korean                           | ko     | 482            | 1                         |
 | Burmese                          | my     | 216            | 1                         |
@@ -106,6 +107,7 @@ Translated sentence data was obtained from tatoeba.org. Testing the 550k sentenc
 | Italian                          | it     | 18326          | 0.9989632216522972        |
 | Spanish                          | es     | 18227          | 0.998134635430954         |
 | Armenian                         | hy     | 518            | 0.9980694980694981        |
+| Arabic                           | ar     | 8761           | 0.9978312977970552        |
 | Ukrainian                        | uk     | 14285          | 0.9963598179908996        |
 | Macedonian                       | mk     | 14465          | 0.9959903214656066        |
 | Dutch                            | nl     | 19626          | 0.9934780393355752        |

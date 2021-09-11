@@ -1,8 +1,10 @@
+// this is an incomplete list
 const tatoeba2Languages = [
   { iso3: 'abk', iso1: 'ab', language: 'Abkhaz' },
   { iso3: 'aar', iso1: 'aa', language: 'Afar' },
   { iso3: 'afr', iso1: 'af', language: 'Afrikaans', fastTextSymbol: 'af' },
   { iso3: 'amh', iso1: 'am', language: 'Amharic', fastTextSymbol: 'am' },
+  { iso3: 'ara', iso1: 'ar', language: 'Arabic', fastTextSymbol: 'ar' },
   { iso3: 'arg', iso1: 'an', language: 'Aragonese', fastTextSymbol: 'an' },
   { iso3: 'asm', iso1: 'as', language: 'Assamese', fastTextSymbol: 'as' },
   { iso3: 'ave', iso1: 'ae', language: 'Avestan' },
@@ -25,6 +27,7 @@ const tatoeba2Languages = [
     language: 'Church Slavic, Old Slavonic, Church Slavonic, Old Bulgarian, Old Church Slavonic',
   },
   { iso3: 'chv', iso1: 'cv', language: 'Chuvash', fastTextSymbol: 'cv' },
+  { iso3: 'cmn', iso1: 'zh', language: 'Mandarin Chinese', fastTextSymbol: 'zh' },
   { iso3: 'cor', iso1: 'kw', language: 'Cornish', fastTextSymbol: 'kw' },
   { iso3: 'cos', iso1: 'co', language: 'Corsican', fastTextSymbol: 'co' },
   { iso3: 'cym', iso1: 'cy', language: 'Welsh', fastTextSymbol: 'cy' },
