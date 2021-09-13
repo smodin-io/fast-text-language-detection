@@ -108,6 +108,21 @@ const createResultsMDFile = (
   fs.writeFileSync(`./results/RESULTS.md`, resultsMD, 'utf-8')
 }
 
+const createIsReliableList = (results: any[], minAccuracy = 0.95, minTestCount = 10) => {
+  const sortedResults = Object.keys(results)
+    .map((lang: string) => ({ fastTextSymbol: lang, ...results[lang] }))
+    .sort((a, b) => {
+      if (a.accuracy === b.accuracy) {
+        return b.count - a.count
+      }
+      return a.accuracy < b.accuracy ? 1 : -1
+    })
+    .filter(({ count, accuracy }) => accuracy >= minAccuracy && count >= minTestCount)
+    .map((l: any) => l.fastTextSymbol)
+
+  fs.writeFileSync(`./results/reliability_list_${version}.json`, JSON.stringify(sortedResults), 'utf-8')
+}
+
 const analyzeDatasets = async (
   includeOnly?: string[],
   perLanguageSentenceLimit = 30000,
@@ -175,6 +190,7 @@ const analyzeDatasets = async (
   fs.writeFileSync(`./results/benchmark_results_${version}.json`, JSON.stringify(results), 'utf-8')
 
   createResultsMDFile(results, (data as any[]).length, sentenceCount as number, minSentenceLength, maxSentenceLength)
+  createIsReliableList(results)
 
   console.info('Finished writing files.')
 }

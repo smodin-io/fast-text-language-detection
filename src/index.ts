@@ -4,6 +4,55 @@ const path = require('path')
 /*  external requirements  */
 const { Classifier } = require('fast-text')
 
+// from benchmark-testing/results/reliability_list_<verison>.json
+const reliabilityList = [
+  'th',
+  'ml',
+  'my',
+  'ta',
+  'te',
+  'pa',
+  'am',
+  'kn',
+  'gu',
+  'si',
+  'bo',
+  'dv',
+  'ja',
+  'el',
+  'he',
+  'ko',
+  'hy',
+  'bn',
+  'mr',
+  'en',
+  'zh',
+  'tr',
+  'ru',
+  'de',
+  'ug',
+  'vi',
+  'eo',
+  'ka',
+  'hi',
+  'it',
+  'ar',
+  'fr',
+  'hu',
+  'lo',
+  'pl',
+  'km',
+  'es',
+  'fi',
+  'pt',
+  'mk',
+  'uk',
+  'ur',
+  'nl',
+  'lt',
+  'cs',
+]
+
 const languageIsoCodes = [
   'af',
   'als',
@@ -207,9 +256,11 @@ class LanguageDetection {
         if (err) reject(err)
         else {
           res = res.map((item) => {
+            const lang = item.label.replace(/^__label__/, '')
             return {
-              lang: item.label.replace(/^__label__/, ''),
+              lang,
               prob: item.value,
+              isReliableLanguage: reliabilityList.includes(lang),
             }
           })
           resolve(res)

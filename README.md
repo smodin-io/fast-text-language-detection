@@ -38,14 +38,16 @@ _Testing_
 _Output_
 
 ```
-[ { lang: 'en', prob: 0.6313226222991943 } ]
-[ { lang: 'de', prob: 0.9137916564941406 } ]
-[ { lang: 'it', prob: 0.974501371383667 } ]
-[ { lang: 'fr', prob: 0.7358829975128174 } ]
-[ { lang: 'es', prob: 0.9211937189102173 } ]
-[ { lang: 'ru', prob: 0.9899846911430359 } ]
-[ { lang: 'zh', prob: 0.8515647649765015 } ]
+[ { lang: 'en', prob: 0.6313226222991943, isReliableLanguage: true } ]
+[ { lang: 'de', prob: 0.9137917160987854, isReliableLanguage: true } ]
+[ { lang: 'it', prob: 0.974501371383667, isReliableLanguage: true } ]
+[ { lang: 'fr', prob: 0.7358829379081726, isReliableLanguage: true } ]
+[ { lang: 'es', prob: 0.9211937189102173, isReliableLanguage: true } ]
+[ { lang: 'ru', prob: 0.9899846911430359, isReliableLanguage: true } ]
+[ { lang: 'zh', prob: 0.8515647649765015, isReliableLanguage: true } ]
 ```
+
+> `isReliableLanguage` is true if there were 10 + test results and accuracy was 95% or more
 
 ### Other Helpers
 
