@@ -96,16 +96,52 @@ const createResultsMDFile = (
 
     return `| ${language} | ${result.fastTextSymbol}${alternativeSymbols ? ` (${alternativeSymbols})` : ''} | ${
       result.count
-    } | ${result.accuracy} | ${result.mislabels.map((label: any) => label.lang).join(',')} |`
+    } | ${result.accuracy} | ${result.mislabels.map((label: any) => label.lang).join(',')} | ${result.falsePositives} |`
+  }
+  const getResultsCSVRow = (result: any) => {
+    const tatoeba2Language = tatoeba2Languages.find((l: any) => l.fastTextSymbol === result.fastTextSymbol)
+    const { language, alternativeSymbols } = tatoeba2Language
+
+    return [
+      language.replace(/,/g, '|'),
+      `${result.fastTextSymbol}${alternativeSymbols ? ` (${alternativeSymbols})` : ''}`,
+      result.count,
+      result.accuracy,
+      result.mislabels.map((label: any) => label.lang).join('|'),
+      result.falsePositives,
+      result.lowestProbability,
+      result.highestFalseProbability,
+      result.correctAvgConfidence,
+      result.incorrectAvgConfidence,
+    ]
+      .map((item: any) => (item === undefined ? ' ' : item))
+      .join(',')
   }
 
   const resultsMD = [
-    `| Language (${languageCount}) | Symbol (alternates) | Count (${sentenceCount})| Accuracy (${minSentenceLength} - ${maxSentenceLength} chars) | Mislabels |`,
-    '| -------- | ------ | ----- | -------- |',
+    `| Language (${languageCount}) | Symbol (alternates) | Count (${sentenceCount})| Accuracy (${minSentenceLength} - ${maxSentenceLength} chars) | Mislabels | False Positives |`,
+    '| -------- | ----------- | ------------ | -------------- | ---------- | --------- |',
     ...sortedResults.map(getResultsMDDisplayRow),
   ].join('\n')
 
   fs.writeFileSync(`./results/RESULTS.md`, resultsMD, 'utf-8')
+
+  const resultsCSV = [
+    [
+      `Language (${languageCount})`,
+      `Symbol (alternates)`,
+      `Count (${sentenceCount})`,
+      `Accuracy (${minSentenceLength} - ${maxSentenceLength} chars)`,
+      'Mislabels',
+      `False Positives`,
+      `Lowest Probability`,
+      `Highest Probability`,
+      'Correct Average Probability Difference',
+      'Incorrect Average Probability Difference',
+    ].join(','),
+    ...sortedResults.map(getResultsCSVRow),
+  ].join('\n')
+  fs.writeFileSync(`./results/RESULTS_with_metadata.csv`, resultsCSV, 'utf-8')
 }
 
 const createIsReliableList = (results: any[], minAccuracy = 0.95, minTestCount = 10) => {
@@ -137,6 +173,7 @@ const analyzeDatasets = async (
   )
   fs.writeFileSync(`./results/benchmark_results_${version}_data.json`, JSON.stringify(data), 'utf-8')
   const results: any = {}
+  const falsePositives: any = {}
   await asyncPoolForEach(
     data,
     async ({
@@ -151,21 +188,38 @@ const analyzeDatasets = async (
       let count = 0
       let accuratePredictions = 0
       let incorrectPredictions: { [key: string]: number } = {}
+      let lowestProbability = 1
+      let highestFalseProbability = 0
+      let correctPredictionConfidences: number[] = []
+      let incorrectPredictionConfidences: number[] = []
 
       await asyncPoolForEach(
         texts,
         async (text: string) => {
-          const prediction = await predict(text)
+          // const prediction = await predict(text)
+          const predictions: any[] = await lid.predict(text, 2)
+          const { lang: prediction, prob: probability } = predictions[0]
+          const probabilityDifference = probability - predictions[1].prob
+
           count = count + 1
           if (
             prediction === language ||
             (Array.isArray(alternativeSymbols) && alternativeSymbols.includes(prediction))
           ) {
             accuratePredictions = accuratePredictions + 1
+            if (probability < lowestProbability) {
+              lowestProbability = probability
+            }
+            correctPredictionConfidences.push(probabilityDifference)
           } else {
+            if (probability > highestFalseProbability) {
+              highestFalseProbability = probability
+            }
+            falsePositives[prediction] = falsePositives[prediction] ? falsePositives[prediction] + 1 : 1
             incorrectPredictions[prediction] = incorrectPredictions[prediction]
               ? incorrectPredictions[prediction] + 1
               : 1
+            incorrectPredictionConfidences.push(probabilityDifference)
           }
         },
         10
@@ -182,6 +236,13 @@ const analyzeDatasets = async (
           .sort((a, b) => b.count - a.count)
           .slice(0, 5),
         accuracy: accuratePredictions / count,
+        falsePositives: falsePositives[language] || 0,
+        lowestProbability,
+        highestFalseProbability,
+        correctAvgConfidence:
+          correctPredictionConfidences.reduce((a, b) => a + b, 0) / correctPredictionConfidences.length,
+        incorrectAvgConfidence:
+          incorrectPredictionConfidences.reduce((a, b) => a + b, 0) / incorrectPredictionConfidences.length,
       }
     }
   )
