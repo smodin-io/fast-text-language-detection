@@ -45,7 +45,8 @@ const buildData = async (
   let sentenceCount: number = 0
   const DATA: any[] = []
   await asyncPoolForEach(iso3LangsWithData, async (iso3Lang: string) => {
-    const fastTextSymbol = tatoeba2Languages.find((lang: any) => lang.iso3 === iso3Lang).fastTextSymbol
+    const tatoeba2Language = tatoeba2Languages.find((lang: any) => lang.iso3 === iso3Lang)
+    const { fastTextSymbol, alternativeSymbols } = tatoeba2Language
     if (!includeOnly || includeOnly.includes(fastTextSymbol)) {
       const sentences = getTsvSentences(iso3Lang, limit, minSentenceLength, maxSentenceLength)
 
@@ -54,6 +55,7 @@ const buildData = async (
         sentenceCount = sentenceCount + sentences.length
         DATA.push({
           language: fastTextSymbol,
+          alternativeSymbols,
           texts: sentences,
         })
       }
@@ -89,13 +91,16 @@ const createResultsMDFile = (
     })
 
   const getResultsMDDisplayRow = (result: any) => {
-    const language = tatoeba2Languages.find((l: any) => l.fastTextSymbol === result.fastTextSymbol).language
+    const tatoeba2Language = tatoeba2Languages.find((l: any) => l.fastTextSymbol === result.fastTextSymbol)
+    const { language, alternativeSymbols } = tatoeba2Language
 
-    return `| ${language} | ${result.fastTextSymbol} | ${result.count} | ${result.accuracy} |`
+    return `| ${language} | ${result.fastTextSymbol}${alternativeSymbols ? ` (${alternativeSymbols})` : ''} | ${
+      result.count
+    } | ${result.accuracy} | ${result.mislabels.map((label: any) => label.lang).join(',')} |`
   }
 
   const resultsMD = [
-    `| Language (${languageCount}) | Symbol | Count (${sentenceCount})| Accuracy (${minSentenceLength} - ${maxSentenceLength} chars) |`,
+    `| Language (${languageCount}) | Symbol (alternates) | Count (${sentenceCount})| Accuracy (${minSentenceLength} - ${maxSentenceLength} chars) | Mislabels |`,
     '| -------- | ------ | ----- | -------- |',
     ...sortedResults.map(getResultsMDDisplayRow),
   ].join('\n')
@@ -117,28 +122,54 @@ const analyzeDatasets = async (
   )
   fs.writeFileSync(`./results/benchmark_results_${version}_data.json`, JSON.stringify(data), 'utf-8')
   const results: any = {}
-  await asyncPoolForEach(data, async ({ language, texts }: { language: string; texts: string[] }) => {
-    let count = 0
-    let accuratePredictions = 0
-
-    await asyncPoolForEach(
+  await asyncPoolForEach(
+    data,
+    async ({
+      language,
+      alternativeSymbols,
       texts,
-      async (text: string) => {
-        const prediction = await predict(text)
-        count = count + 1
-        if (prediction === language) {
-          accuratePredictions = accuratePredictions + 1
-        }
-      },
-      10
-    )
+    }: {
+      language: string
+      alternativeSymbols?: string[]
+      texts: string[]
+    }) => {
+      let count = 0
+      let accuratePredictions = 0
+      let incorrectPredictions: { [key: string]: number } = {}
 
-    results[language] = {
-      count,
-      accuratePredictions,
-      accuracy: accuratePredictions / count,
+      await asyncPoolForEach(
+        texts,
+        async (text: string) => {
+          const prediction = await predict(text)
+          count = count + 1
+          if (
+            prediction === language ||
+            (Array.isArray(alternativeSymbols) && alternativeSymbols.includes(prediction))
+          ) {
+            accuratePredictions = accuratePredictions + 1
+          } else {
+            incorrectPredictions[prediction] = incorrectPredictions[prediction]
+              ? incorrectPredictions[prediction] + 1
+              : 1
+          }
+        },
+        10
+      )
+
+      results[language] = {
+        count,
+        accuratePredictions,
+        mislabels: Object.keys(incorrectPredictions)
+          .map((lang: string) => ({
+            lang,
+            count: incorrectPredictions[lang],
+          }))
+          .sort((a, b) => b.count - a.count)
+          .slice(0, 5),
+        accuracy: accuratePredictions / count,
+      }
     }
-  })
+  )
 
   // save results file
   fs.writeFileSync(`./results/benchmark_results_${version}.json`, JSON.stringify(results), 'utf-8')
