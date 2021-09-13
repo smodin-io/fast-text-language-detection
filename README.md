@@ -280,6 +280,10 @@ As a test of accuracy on shorter phrases, the min and max character count was ch
 | Aragonese                        | an     | 73             | 0.0136986301369863       |
 | Romansh                          | rm     | 11             | 0                        |
 
+## Comparison NPM Libaries
+
+Success benchmarking has been checked with other popular libraries (notably `franc` and `languagedetect`) and results are included in `benchmark-testing/COMPARISONS.md`
+
 ## TODO List
 
 - Improve accuracy by replicating the test analysis from https://towardsdatascience.com/benchmarking-language-detection-for-nlp-8250ea8b67c and attempt to improve the `formatText()` function by strategically choosing punctuation / non-text characters.
