@@ -282,7 +282,7 @@ As a test of accuracy on shorter phrases, the min and max character count was ch
 
 ## Comparison NPM Libaries
 
-Success benchmarking has been checked with other popular libraries (notably `franc` and `languagedetect`) and results are included in `benchmark-testing/COMPARISONS.md`
+Success benchmarking has been checked with other popular libraries (notably `franc` and `languagedetect`) and results are included in `benchmark-testing/results/COMPARISONS.md`
 
 ## TODO List
 
