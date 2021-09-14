@@ -1,6 +1,7 @@
 const fs = require('fs')
 const { version } = require('../package.json')
 const csv = require('csvtojson')
+const franc = require('franc')
 const { asyncPoolForEach, getTSVsInDir } = require('./helpers')
 const { tatoeba2Languages, fastTextLanguages } = require('./constants')
 const LanguageDetection = require('../src/index.ts')
@@ -96,7 +97,7 @@ const createResultsMDFile = (
 
     return `| ${language} | ${result.fastTextSymbol}${alternativeSymbols ? ` (${alternativeSymbols})` : ''} | ${
       result.count
-    } | ${result.accuracy} | ${result.mislabels.map((label: any) => label.lang).join(',')} | ${result.falsePositives} |`
+    } | ${result.accuracy} | ${result.addedAccuracy} | ${result.falsePositives} |`
   }
   const getResultsCSVRow = (result: any) => {
     const tatoeba2Language = tatoeba2Languages.find((l: any) => l.fastTextSymbol === result.fastTextSymbol)
@@ -119,7 +120,7 @@ const createResultsMDFile = (
   }
 
   const resultsMD = [
-    `| Language (${languageCount}) | Symbol (alternates) | Count (${sentenceCount})| Accuracy (${minSentenceLength} - ${maxSentenceLength} chars) | Mislabels | False Positives |`,
+    `| Language (${languageCount}) | Symbol (alternates) | Count (${sentenceCount})| Accuracy (${minSentenceLength} - ${maxSentenceLength} chars) | addedAccuracy | False Positives |`,
     '| -------- | ----------- | ------------ | -------------- | ---------- | --------- |',
     ...sortedResults.map(getResultsMDDisplayRow),
   ].join('\n')
@@ -187,6 +188,7 @@ const analyzeDatasets = async (
     }) => {
       let count = 0
       let accuratePredictions = 0
+      let accurateFrancPredictions = 0
       let incorrectPredictions: { [key: string]: number } = {}
       let lowestProbability = 1
       let highestFalseProbability = 0
@@ -200,6 +202,31 @@ const analyzeDatasets = async (
           const predictions: any[] = await lid.predict(text, 2)
           const { lang: prediction, prob: probability } = predictions[0]
           const probabilityDifference = probability - predictions[1].prob
+          const minProbabilityDifferenceThreshold = 0.25
+          let francPred
+
+          // console.log('probabilityDifference', probabilityDifference)
+
+          if (probabilityDifference < minProbabilityDifferenceThreshold) {
+            const iso3Codes = predictions
+              .map((pred: any) => {
+                const lang = tatoeba2Languages.find((l: any) => l.fastTextSymbol === pred.lang)
+                return lang ? lang.iso3 : null
+              })
+              .filter((code: string) => !!code)
+
+            // console.log(iso3Codes)
+            try {
+              const francPredictions = franc.all(text, { only: iso3Codes })
+              const francPrediction = francPredictions[0][0] // iso3Code
+              const lang = tatoeba2Languages.find((l: any) => l.iso3 === francPrediction)
+              if (lang && lang.fastTextSymbol) {
+                francPred = lang.fastTextSymbol
+              }
+            } catch (e) {
+              console.log('error', e)
+            }
+          }
 
           count = count + 1
           if (
@@ -221,6 +248,17 @@ const analyzeDatasets = async (
               : 1
             incorrectPredictionConfidences.push(probabilityDifference)
           }
+
+          // franc prediction
+          const accuratePrediction =
+            prediction === language || (Array.isArray(alternativeSymbols) && alternativeSymbols.includes(prediction))
+          if (
+            (!francPred && accuratePrediction) ||
+            francPred === language ||
+            (Array.isArray(alternativeSymbols) && alternativeSymbols.includes(francPred))
+          ) {
+            accurateFrancPredictions = accurateFrancPredictions + 1
+          }
         },
         10
       )
@@ -236,6 +274,7 @@ const analyzeDatasets = async (
           .sort((a, b) => b.count - a.count)
           .slice(0, 5),
         accuracy: accuratePredictions / count,
+        addedAccuracy: accurateFrancPredictions / count - accuratePredictions / count,
         falsePositives: falsePositives[language] || 0,
         lowestProbability,
         highestFalseProbability,
