@@ -298,6 +298,10 @@ As a test of accuracy on shorter phrases, the min and max character count was ch
 
 - To improve expectations of an incorrect result, you can use the difference in probability of result 1 and 2. It appears that the verage probability difference between 1 and 2 is somewhat of an indicator of a potentially incorrect prediction.
 
+- Anything over 100 characters is strongly accurate, though there isn't enough sentences for test data to assure this for all the test languages. 55 out of 82 languages that had this data had a 99% or better accuracy, 63 had 90%+ accuracy, 72 had 75%+ accuracy. For 200+ characters, 42 of 47 languages had a perfect score, though most had less than 10 test cases.
+
+- Spanish tends to give the most false positives based on sheer quantity of percentage of false positives. The average correct spanish asserverion probability difference from the first and second result was 0.94, whereas the average for incorrect guesses was 0.22. Thus, a difference less than an arbitrary 0.4 would suggest a false positive, for example.
+
 ## Comparison NPM Libaries
 
 Success benchmarking has been checked with other popular libraries (notably `franc` and `languagedetect`) and results are included in `benchmark-testing/results/COMPARISONS.md`
