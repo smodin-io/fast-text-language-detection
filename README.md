@@ -12,7 +12,7 @@ Most incorrect suggestions are due to non-text characters (i.e. punctuation) tha
 npm i --save @smodin/fast-text-language-detection
 ```
 
-**Note: This will install the fast-text model by facebook which is about 150MB**
+**Note: This will install the fast-text model by facebook which is about 150MB. You also need python installed, if you're running an alipine docker see how to easily do this [here](https://stackoverflow.com/questions/54428608/docker-node-alpine-image-build-fails-on-node-gyp)**
 
 ## Usage
 
@@ -300,7 +300,7 @@ As a test of accuracy on shorter phrases, the min and max character count was ch
 
 - Anything over 100 characters is strongly accurate, though there isn't enough sentences for test data to assure this for all the test languages. 55 out of 82 languages that had this data had a 99% or better accuracy, 63 had 90%+ accuracy, 72 had 75%+ accuracy. For 200+ characters, 42 of 47 languages had a perfect score, though most had less than 10 test cases.
 
-- Spanish tends to give the most false positives based on sheer quantity of percentage of false positives. 
+- Spanish tends to give the most false positives based on sheer quantity of percentage of false positives.
 
 - In attempting to add a second check with `franc` for a smaller difference in probabilities between language 1 and 2 (i.e. less than 0.2), only the worst performing languages showed significant benefit. There doesn't seem to be a trend for any other languages. You can see this data on the `COMPARISONS.md`.
 
