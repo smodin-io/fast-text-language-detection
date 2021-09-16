@@ -2,10 +2,6 @@
 
 In a search for the _best_ option for predicting a language from text which didn't require a large machine learning model, it appeared that fast-text, created by FaceBook, was the best option (https://towardsdatascience.com/benchmarking-language-detection-for-nlp-8250ea8b67c).
 
-## Improving Accuracy
-
-Most incorrect suggestions are due to non-text characters (i.e. punctuation) that should be filtered out to provide better results. Please submit an issue for incorrect suggestions so we can work on improving the accuracy.
-
 ## Installation
 
 ```
@@ -303,6 +299,10 @@ As a test of accuracy on shorter phrases, the min and max character count was ch
 - Spanish tends to give the most false positives based on sheer quantity of percentage of false positives.
 
 - In attempting to add a second check with `franc` for a smaller difference in probabilities between language 1 and 2 (i.e. less than 0.2), only the worst performing languages showed significant benefit. There doesn't seem to be a trend for any other languages. You can see this data on the `COMPARISONS.md`.
+
+## Improving Accuracy
+
+Most incorrect suggestions are due to non-text characters (i.e. punctuation) that should be filtered out to provide better results. Please submit an issue for incorrect suggestions so we can work on improving the accuracy.
 
 ## Comparison NPM Libaries
 
