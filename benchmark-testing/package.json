@@ -6,6 +6,7 @@
   "dependencies": {
     "@supercharge/promise-pool": "^1.7.0",
     "csvtojson": "^2.0.10",
+    "langs": "^2.0.0",
     "ts-node": "^10.2.1",
     "typescript": "^4.4.3"
   }

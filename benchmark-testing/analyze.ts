@@ -256,4 +256,50 @@ const analyzeDatasets = async (
   console.info('Finished writing files.')
 }
 
-analyzeDatasets()
+// analyzeDatasets()
+
+const langs = require('langs')
+const res = require('./results/benchmark_results_0.2.3.json')
+
+const buildMD = () => {
+  const non_core = []
+  const core = []
+  lid.languageIsoCodes.forEach((code: string) => {
+    const where = (code: string) => {
+      return langs.where('1', code) || langs.where('2', code) || langs.where('3', code)
+    }
+    const lang = where(code)
+    if (!lang) {
+      non_core.push({ code })
+    } else {
+      const stats = res[code]
+      core.push({
+        name: lang.name,
+        code: code,
+        ...(stats
+          ? {
+              accuracy: stats.accuracy,
+              datapoints: stats.count,
+              common_mislabels: stats.mislabels ? stats.mislabels.map((mislable) => mislable.lang) : undefined,
+              correctAvgConfidence: stats.correctAvgConfidence,
+              incorrectAvgConfidence: stats.incorrectAvgConfidence,
+            }
+          : {}),
+      })
+    }
+  })
+
+  const langFilter = core
+    .filter((item) => item.accuracy > 0.99)
+    .sort((a, b) => b.datapoints - a.datapoints)
+    .map((item) => `${item.name} (${item.code})`)
+
+  console.log(langFilter.join(', '))
+
+  const langFilter2 = core
+    .filter((item) => item.accuracy <= 0.99 && item.accuracy >= 0.9)
+    .sort((a, b) => b.datapoints - a.datapoints)
+    .map((item) => `${item.name} (${item.code})`)
+  console.log(langFilter2.join(', '))
+}
+buildMD()
