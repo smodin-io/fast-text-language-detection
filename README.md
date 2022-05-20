@@ -308,6 +308,29 @@ Most incorrect suggestions are due to non-text characters (i.e. punctuation) tha
 
 Success benchmarking has been checked with other popular libraries (notably `franc` and `languagedetect`) and results are included in `benchmark-testing/results/COMPARISONS.md`
 
+## Sample Dockerfile
+
+Note: You need to have python installed to make this work in alpine-node
+
+```Dockerfile
+FROM mhart/alpine-node:14
+
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+
+RUN apk add --no-cache --virtual .gyp \
+  python \
+  make \
+  g++ \
+  && npm ci --only=production \
+  && apk del .gyp
+
+COPY . ./
+
+CMD [ "npm", "start" ]
+```
+
 ## TODO List
 
 - Improve accuracy by replicating the test analysis from https://towardsdatascience.com/benchmarking-language-detection-for-nlp-8250ea8b67c and attempt to improve the `formatText()` function by strategically choosing punctuation / non-text characters.
