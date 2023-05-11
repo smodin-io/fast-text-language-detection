@@ -27,13 +27,13 @@
     "output": "model/fast-text-lid-model.bin"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^19.0.2",
-    "@rollup/plugin-node-resolve": "^13.0.4",
+    "@rollup/plugin-commonjs": "^24.1.0",
+    "@rollup/plugin-node-resolve": "^15.0.2",
     "@rollup/plugin-typescript": "^11.1.0",
     "eslint": "^7.26.0",
-    "rollup": "^2.56.0",
-    "tslib": "^2.5.0",
+    "rollup": "^3.21.6",
     "ts-node": "^10.9.1",
+    "tslib": "^2.5.0",
     "typescript": "^4.2.4"
   },
   "dependencies": {
