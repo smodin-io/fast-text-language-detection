@@ -1,6 +1,7 @@
-import { nodeResolve as resolve } from '@rollup/plugin-node-resolve'
+import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import typescript from '@rollup/plugin-typescript'
+import pkg from "./package.json" assert { type: "json" };
 
 export default [
   // browser-friendly UMD build
@@ -8,10 +9,10 @@ export default [
     input: 'src/index.ts',
     output: {
       name: 'myLib',
-      file: "dist/my-lib.umd.js",
+      file: pkg.browser,
       format: 'umd',
     },
-    plugins: [resolve(), commonjs(), typescript({ tsconfig: './tsconfig.json' })],
+    plugins: [nodeResolve(), commonjs(), typescript({ tsconfig: './tsconfig.json' })],
   },
 
   // CommonJS (for Node) and ES module (for bundlers) build.
@@ -23,8 +24,8 @@ export default [
   {
     input: 'src/index.ts',
     output: [
-      { file: "dist/my-lib.cjs.js", format: 'cjs' },
-      { file: "dist/my-lib.esm.js", format: 'es' },
+      { file: pkg.main, format: 'cjs' },
+      { file: pkg.module, format: 'es' },
     ],
     plugins: [typescript({ tsconfig: './tsconfig.json' })],
   },
