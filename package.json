@@ -12,7 +12,8 @@
   "module": "dist/my-lib.esm.js",
   "browser": "dist/my-lib.umd.js",
   "files": [
-    "dist"
+    "dist",
+    "model"
   ],
   "scripts": {
     "install": "npm-install-fetch",
