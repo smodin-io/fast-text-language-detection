@@ -1,8 +1,8 @@
 {
-  "name": "@smodin/fast-text-language-detection",
+  "name": "@martincik/fast-text-language-detection",
   "version": "0.2.4",
   "description": "Language detection with facebook fast-text model",
-  "homepage": "https://github.com/smodin-io/fast-text-language-detection",
+  "homepage": "https://github.com/martincik/fast-text-language-detection",
   "keywords": [
     "language",
     "detection",
@@ -12,12 +12,14 @@
   "module": "dist/my-lib.esm.js",
   "browser": "dist/my-lib.umd.js",
   "files": [
-    "dist"
+    "dist",
+    "model"
   ],
   "scripts": {
     "install": "npm-install-fetch",
     "dev": "rollup -c -w",
     "build": "rollup -c",
+    "prepare": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "npm-install-fetch": {
@@ -26,13 +28,13 @@
     "output": "model/fast-text-lid-model.bin"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^19.0.2",
-    "@rollup/plugin-node-resolve": "^13.0.4",
+    "@rollup/plugin-commonjs": "^24.1.0",
+    "@rollup/plugin-node-resolve": "^15.0.2",
     "@rollup/plugin-typescript": "^11.1.0",
     "eslint": "^7.26.0",
-    "rollup": "^2.56.0",
-    "tslib": "^2.5.0",
+    "rollup": "^3.21.6",
     "ts-node": "^10.9.1",
+    "tslib": "^2.5.0",
     "typescript": "^4.2.4"
   },
   "dependencies": {
